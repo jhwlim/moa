@@ -1,7 +1,7 @@
 package io.webapp.moa.common.exception
 
 open class ApplicationException(
-    private val errorType: ErrorType,
+    val errorType: ErrorType,
     override val message: String? = null,
 ) : Exception(message ?: errorType.message) {
 
