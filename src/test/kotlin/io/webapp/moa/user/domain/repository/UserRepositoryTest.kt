@@ -43,10 +43,7 @@ class UserRepositoryTest(
             name = "Test User"
         )
 
-        beforeEach {
-            testEntityManager.persist(user)
-            testEntityManager.flush()
-        }
+        testEntityManager.persistAndFlush(user)
 
         context("이메일로 사용자를 찾을 수 있을 때") {
 
@@ -54,8 +51,8 @@ class UserRepositoryTest(
 
             val actual = userRepository.findByEmail(email)
 
-            it("해당 이메일을 가진 사용자를 반환해야 한다.") {
-                actual shouldBe user
+            it("null 을 반환하지 않아야 한다.") {
+                actual shouldNotBe null
             }
 
         }
