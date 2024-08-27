@@ -10,7 +10,7 @@ import io.webapp.moa.common.exception.ErrorType.USER_EMAIL_ALREADY_EXISTS
 import io.webapp.moa.common.exception.ValidationException
 import io.webapp.moa.support.fixture.UserFixtures.defaultCreateUserCommand
 import io.webapp.moa.support.fixture.UserFixtures.defaultEmail
-import io.webapp.moa.support.fixture.UserFixtures.defaultUser
+import io.webapp.moa.support.fixture.UserFixtures.defaultSavedUser
 import io.webapp.moa.user.domain.repository.UserRepository
 
 class CreateUserValidatorTest : DescribeSpec({
@@ -42,7 +42,7 @@ class CreateUserValidatorTest : DescribeSpec({
             val email = defaultEmail()
             val command = defaultCreateUserCommand()
 
-            every { userRepository.findByEmail(email) } returns defaultUser()
+            every { userRepository.findByEmail(email) } returns defaultSavedUser()
 
             it("ValidationException 이 발생해야 하고, errorType 은 USER_EMAIL_ALREADY_EXISTS 이어야 한다.") {
                 val actual = shouldThrow<ValidationException> {

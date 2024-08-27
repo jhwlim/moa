@@ -4,7 +4,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.webapp.moa.SpringTestSpec
 import io.webapp.moa.support.fixture.UserFixtures.defaultEmail
-import io.webapp.moa.support.fixture.UserFixtures.defaultUserNotSaved
+import io.webapp.moa.support.fixture.UserFixtures.defaultNotSavedUser
 import io.webapp.moa.user.domain.model.value.Email
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
@@ -19,7 +19,7 @@ class UserRepositoryTest(
 
         context("새로운 사용자가 등록되었을 때") {
 
-            val user = defaultUserNotSaved()
+            val user = defaultNotSavedUser()
 
             val actual = userRepository.save(user)
 
@@ -33,7 +33,7 @@ class UserRepositoryTest(
 
     describe("findByEmail") {
 
-        val user = defaultUserNotSaved()
+        val user = defaultNotSavedUser()
 
         testEntityManager.persistAndFlush(user)
 
