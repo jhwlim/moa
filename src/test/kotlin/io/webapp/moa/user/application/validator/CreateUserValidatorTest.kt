@@ -8,10 +8,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.webapp.moa.common.exception.ErrorType.USER_EMAIL_ALREADY_EXISTS
 import io.webapp.moa.common.exception.ValidationException
-import io.webapp.moa.user.application.dto.CreateUserCommand
-import io.webapp.moa.user.domain.model.aggregate.User
-import io.webapp.moa.user.domain.model.value.Email
-import io.webapp.moa.user.domain.model.value.EncryptedPassword
+import io.webapp.moa.support.fixture.UserFixtures.defaultCreateUserCommand
+import io.webapp.moa.support.fixture.UserFixtures.defaultEmail
+import io.webapp.moa.support.fixture.UserFixtures.defaultUser
 import io.webapp.moa.user.domain.repository.UserRepository
 
 class CreateUserValidatorTest : DescribeSpec({
@@ -25,12 +24,8 @@ class CreateUserValidatorTest : DescribeSpec({
 
         context("유효성 검사를 통과한 경우") {
 
-            val email = Email("test@example.com")
-            val command = CreateUserCommand(
-                email = email,
-                rawPassword = "rawPassword1234",
-                name = "Test User"
-            )
+            val email = defaultEmail()
+            val command = defaultCreateUserCommand()
 
             every { userRepository.findByEmail(email) } returns null
 
@@ -44,18 +39,10 @@ class CreateUserValidatorTest : DescribeSpec({
 
         context("이메일이 이미 존재하는 경우") {
 
-            val email = Email("test@example.com")
-            val command = CreateUserCommand(
-                email = email,
-                rawPassword = "rawPassword1234",
-                name = "Test User"
-            )
+            val email = defaultEmail()
+            val command = defaultCreateUserCommand()
 
-            every { userRepository.findByEmail(email) } returns User(
-                email = email,
-                password = EncryptedPassword("password"),
-                name = "Test User"
-            )
+            every { userRepository.findByEmail(email) } returns defaultUser()
 
             it("ValidationException 이 발생해야 하고, errorType 은 USER_EMAIL_ALREADY_EXISTS 이어야 한다.") {
                 val actual = shouldThrow<ValidationException> {
