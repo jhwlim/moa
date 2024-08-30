@@ -1,6 +1,7 @@
 package io.webapp.moa.support.fixture
 
 import io.webapp.moa.user.application.dto.CreateUserCommand
+import io.webapp.moa.user.application.dto.SignInCommand
 import io.webapp.moa.user.application.dto.UserDto
 import io.webapp.moa.user.domain.model.aggregate.User
 import io.webapp.moa.user.domain.model.value.Email
@@ -11,7 +12,7 @@ object UserFixtures {
 
     private const val DEFAULT_EMAIL_TEXT = "test@example.com"
     private const val DEFAULT_RAW_PASSWORD_TEXT = "1234aA!@"
-    private const val DEFAULT_ENCRYPTED_PASSWORD_TEXT = "encryptedPassword1234"
+    const val DEFAULT_ENCRYPTED_PASSWORD_TEXT = "encryptedPassword1234"
     const val DEFAULT_USER_NAME = "Test User"
 
     fun defaultEmail() = Email(DEFAULT_EMAIL_TEXT)
@@ -56,6 +57,16 @@ object UserFixtures {
         id = id,
         email = Email(email),
         name = name,
+    )
+
+    fun defaultSignInCommand() = createSignInCommand()
+
+    private fun createSignInCommand(
+        email: String = DEFAULT_EMAIL_TEXT,
+        rawPassword: String = DEFAULT_RAW_PASSWORD_TEXT,
+    ) = SignInCommand(
+        email = Email(email),
+        rawPassword = rawPassword,
     )
 
     fun createRegisterUserRequest(
