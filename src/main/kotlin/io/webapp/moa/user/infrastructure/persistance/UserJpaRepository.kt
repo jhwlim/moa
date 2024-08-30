@@ -1,4 +1,4 @@
-package io.webapp.moa.user.infrastructure
+package io.webapp.moa.user.infrastructure.persistance
 
 import io.webapp.moa.user.domain.model.aggregate.User
 import io.webapp.moa.user.domain.model.value.Email
