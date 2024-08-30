@@ -38,6 +38,7 @@ class SecurityConfig {
 
         private val PERMIT_ALL_PATTERNS = arrayOf(
             "/v1/auth/register",
+            "/v1/auth/login",
         )
 
     }
