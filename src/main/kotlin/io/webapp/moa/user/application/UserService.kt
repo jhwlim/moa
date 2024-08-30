@@ -7,7 +7,9 @@ import io.webapp.moa.user.application.dto.CreateUserCommand
 import io.webapp.moa.user.application.dto.SignInCommand
 import io.webapp.moa.user.application.dto.UserDto
 import io.webapp.moa.user.application.validator.CreateUserValidator
+import io.webapp.moa.user.application.validator.SignInValidator
 import io.webapp.moa.user.domain.repository.UserRepository
+import io.webapp.moa.user.domain.repository.findByEmailOrThrow
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(
     private val userRepository: UserRepository,
     private val createUserValidator: CreateUserValidator,
+    private val signInValidator: SignInValidator,
     private val passwordEncoder: PasswordEncoder,
     private val accessTokenProvider: AccessTokenProvider,
     private val refreshTokenProvider: RefreshTokenProvider,
@@ -31,13 +34,15 @@ class UserService(
 
     @Transactional(readOnly = true)
     fun signIn(command: SignInCommand): AuthTokens {
-        val (email, rawPassword) = command
-        val user = userRepository.findByEmail(email) ?: throw Exception()
+        signInValidator.validate(command)
 
-        return AuthTokens(
-            accessToken = accessTokenProvider.createAccessToken(user),
-            refreshToken = refreshTokenProvider.createRefreshToken(user),
-        )
+        return userRepository.findByEmailOrThrow(command.email)
+            .let { user ->
+                AuthTokens(
+                    accessToken = accessTokenProvider.createAccessToken(user),
+                    refreshToken = refreshTokenProvider.createRefreshToken(user),
+                )
+            }
     }
 
 }

@@ -10,6 +10,7 @@ import io.webapp.moa.support.fixture.UserFixtures.defaultUserDto
 import io.webapp.moa.user.application.auth.AccessTokenProvider
 import io.webapp.moa.user.application.auth.RefreshTokenProvider
 import io.webapp.moa.user.application.validator.CreateUserValidator
+import io.webapp.moa.user.application.validator.SignInValidator
 import io.webapp.moa.user.domain.model.aggregate.User
 import io.webapp.moa.user.domain.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -18,6 +19,7 @@ class UserServiceTest : DescribeSpec({
 
     val userRepository: UserRepository = mockk()
     val createUserValidator: CreateUserValidator = mockk()
+    val signInValidator: SignInValidator = mockk()
     val passwordEncoder: PasswordEncoder = mockk()
     val accessTokenProvider: AccessTokenProvider = mockk()
     val refreshTokenProvider: RefreshTokenProvider = mockk()
@@ -25,6 +27,7 @@ class UserServiceTest : DescribeSpec({
     val userService = UserService(
         userRepository,
         createUserValidator,
+        signInValidator,
         passwordEncoder,
         accessTokenProvider,
         refreshTokenProvider,
