@@ -20,7 +20,7 @@ class UserService(
         createUserValidator.validate(user)
 
         return userRepository.save(user.toEntity(passwordEncoder))
-            .let { UserDto.of(it) }
+            .let { UserDto.from(it) }
     }
 
 }
