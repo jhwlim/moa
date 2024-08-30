@@ -2,8 +2,8 @@ package io.webapp.moa.common.exception
 
 open class ApplicationException(
     val errorType: ErrorType,
-    override val message: String? = null,
-) : Exception(message ?: errorType.message) {
+    override val message: String = errorType.message,
+) : Exception(message) {
 
     fun getErrorCode() = errorType.getErrorCode()
 
@@ -11,5 +11,5 @@ open class ApplicationException(
 
 class ValidationException(
     errorType: ErrorType,
-    message: String? = null,
+    message: String = errorType.message,
 ) : ApplicationException(errorType, message)
