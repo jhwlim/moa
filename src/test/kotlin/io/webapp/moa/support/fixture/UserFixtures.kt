@@ -5,13 +5,14 @@ import io.webapp.moa.user.application.dto.UserDto
 import io.webapp.moa.user.domain.model.aggregate.User
 import io.webapp.moa.user.domain.model.value.Email
 import io.webapp.moa.user.domain.model.value.EncryptedPassword
+import io.webapp.moa.user.presentation.dto.RegisterUserRequest
 
 object UserFixtures {
 
     private const val DEFAULT_EMAIL_TEXT = "test@example.com"
-    private const val DEFAULT_RAW_PASSWORD_TEXT = "rawPassword1234"
+    private const val DEFAULT_RAW_PASSWORD_TEXT = "1234aA!@"
     private const val DEFAULT_ENCRYPTED_PASSWORD_TEXT = "encryptedPassword1234"
-    private const val DEFAULT_USER_NAME = "Test User"
+    const val DEFAULT_USER_NAME = "Test User"
 
     fun defaultEmail() = Email(DEFAULT_EMAIL_TEXT)
 
@@ -48,10 +49,22 @@ object UserFixtures {
     fun defaultUserDto() = createUserDto()
 
     private fun createUserDto(
+        id: Long = 1L,
         email: String = DEFAULT_EMAIL_TEXT,
         name: String = DEFAULT_USER_NAME,
     ) = UserDto(
+        id = id,
         email = Email(email),
+        name = name,
+    )
+
+    fun createRegisterUserRequest(
+        email: String? = DEFAULT_EMAIL_TEXT,
+        password: String? = DEFAULT_RAW_PASSWORD_TEXT,
+        name: String? = DEFAULT_USER_NAME,
+    ) = RegisterUserRequest(
+        email = email,
+        password = password,
         name = name,
     )
 
