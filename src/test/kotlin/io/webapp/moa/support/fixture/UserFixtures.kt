@@ -1,11 +1,14 @@
 package io.webapp.moa.support.fixture
 
+import io.webapp.moa.user.application.dto.AuthTokens
 import io.webapp.moa.user.application.dto.CreateUserCommand
 import io.webapp.moa.user.application.dto.SignInCommand
 import io.webapp.moa.user.application.dto.UserDto
 import io.webapp.moa.user.domain.model.aggregate.User
+import io.webapp.moa.user.domain.model.value.AccessToken
 import io.webapp.moa.user.domain.model.value.Email
 import io.webapp.moa.user.domain.model.value.EncryptedPassword
+import io.webapp.moa.user.domain.model.value.RefreshToken
 import io.webapp.moa.user.presentation.dto.RegisterUserRequest
 
 object UserFixtures {
@@ -14,6 +17,8 @@ object UserFixtures {
     private const val DEFAULT_RAW_PASSWORD_TEXT = "1234aA!@"
     const val DEFAULT_ENCRYPTED_PASSWORD_TEXT = "encryptedPassword1234"
     const val DEFAULT_USER_NAME = "Test User"
+    private const val DEFAULT_ACCESS_TOKEN_VALUE = "accessToken"
+    private const val DEFAULT_REFRESH_TOKEN_VALUE = "refreshToken"
 
     fun defaultEmail() = Email(DEFAULT_EMAIL_TEXT)
 
@@ -67,6 +72,15 @@ object UserFixtures {
     ) = SignInCommand(
         email = Email(email),
         rawPassword = rawPassword,
+    )
+
+    fun defaultAccessToken() = AccessToken(DEFAULT_ACCESS_TOKEN_VALUE)
+
+    fun defaultRefreshToken() = RefreshToken(DEFAULT_REFRESH_TOKEN_VALUE)
+
+    fun defaultAuthTokens() = AuthTokens(
+        accessToken = defaultAccessToken(),
+        refreshToken = defaultRefreshToken(),
     )
 
     fun createRegisterUserRequest(
