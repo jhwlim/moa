@@ -3,8 +3,7 @@ package io.webapp.moa.common.exception
 import io.webapp.moa.common.exception.ErrorType.INVALID_REQUEST
 import io.webapp.moa.common.exception.ErrorType.UNKNOWN
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -24,6 +23,13 @@ class ExceptionHandler {
                 errorType = INVALID_REQUEST,
                 message = errorMessages.joinToString(" | ")
             )
+        }
+    }
+
+    @ExceptionHandler(UnauthorizedException::class)
+    fun handleUnauthorizedException(exception: UnauthorizedException): ResponseEntity<ErrorResponse> {
+        return responseEntityOf(UNAUTHORIZED) {
+            ErrorResponse.from(exception)
         }
     }
 

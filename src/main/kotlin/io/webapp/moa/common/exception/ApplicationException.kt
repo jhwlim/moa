@@ -9,3 +9,8 @@ class ValidationException(
     errorType: ErrorType,
     message: String? = null,
 ) : ApplicationException(errorType, message)
+
+class UnauthorizedException(
+    errorType: ErrorType,
+    message: String? = null,
+) : ApplicationException(errorType, message)
