@@ -2,6 +2,7 @@ package io.webapp.moa.user.domain.model.aggregate
 
 import io.webapp.moa.user.domain.model.value.Email
 import io.webapp.moa.user.domain.model.value.EncryptedPassword
+import io.webapp.moa.user.domain.model.value.UserRole
 import jakarta.persistence.*
 import org.springframework.data.domain.AbstractAggregateRoot
 
@@ -14,4 +15,5 @@ class User(
     val email: Email,
     val password: EncryptedPassword,
     val name: String,
+    val role: UserRole,
 ) : AbstractAggregateRoot<User>()

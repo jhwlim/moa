@@ -5,10 +5,7 @@ import io.webapp.moa.user.application.dto.CreateUserCommand
 import io.webapp.moa.user.application.dto.SignInCommand
 import io.webapp.moa.user.application.dto.UserDto
 import io.webapp.moa.user.domain.model.aggregate.User
-import io.webapp.moa.user.domain.model.value.AccessToken
-import io.webapp.moa.user.domain.model.value.Email
-import io.webapp.moa.user.domain.model.value.EncryptedPassword
-import io.webapp.moa.user.domain.model.value.RefreshToken
+import io.webapp.moa.user.domain.model.value.*
 import io.webapp.moa.user.presentation.dto.LoginRequest
 import io.webapp.moa.user.presentation.dto.RegisterUserRequest
 
@@ -34,11 +31,13 @@ object UserFixtures {
         email: String = DEFAULT_EMAIL_TEXT,
         password: String = DEFAULT_ENCRYPTED_PASSWORD_TEXT,
         name: String = DEFAULT_USER_NAME,
+        role: UserRole = UserRole.MEMBER,
     ) = User(
         id = id,
         email = Email(email),
         password = EncryptedPassword(password),
         name = name,
+        role = role,
     )
 
     fun defaultCreateUserCommand() = createCreateUserCommand()
