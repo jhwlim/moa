@@ -2,6 +2,7 @@ package io.webapp.moa.common.exception
 
 import io.webapp.moa.common.exception.ErrorType.INVALID_REQUEST
 import io.webapp.moa.common.exception.ErrorType.UNKNOWN
+import io.webapp.moa.common.utils.logger
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class ExceptionHandler {
+
+    private val log = logger()
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
@@ -42,6 +45,7 @@ class ExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     fun handleException(exception: Exception): ResponseEntity<ErrorResponse> {
+        log.error(exception) {}
         return responseEntityOf(INTERNAL_SERVER_ERROR) {
             ErrorResponse.of(
                 errorType = UNKNOWN,
