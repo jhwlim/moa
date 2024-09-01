@@ -9,19 +9,24 @@ import io.mockk.every
 import io.webapp.moa.SpringTestSpec
 import io.webapp.moa.common.config.SecurityConfig
 import io.webapp.moa.support.fixture.UserFixtures.DEFAULT_USER_NAME
+import io.webapp.moa.support.fixture.UserFixtures.createLoginRequest
 import io.webapp.moa.support.fixture.UserFixtures.createRegisterUserRequest
+import io.webapp.moa.support.fixture.UserFixtures.defaultAccessToken
+import io.webapp.moa.support.fixture.UserFixtures.defaultAuthTokens
 import io.webapp.moa.support.fixture.UserFixtures.defaultEmail
+import io.webapp.moa.support.fixture.UserFixtures.defaultRefreshToken
 import io.webapp.moa.support.fixture.UserFixtures.defaultUserDto
 import io.webapp.moa.support.utils.getErrorResponse
 import io.webapp.moa.support.utils.getResponse
 import io.webapp.moa.support.utils.post
 import io.webapp.moa.user.application.UserService
+import io.webapp.moa.user.presentation.dto.AuthTokensResponse
+import io.webapp.moa.user.presentation.dto.LoginRequest
 import io.webapp.moa.user.presentation.dto.RegisterUserRequest
 import io.webapp.moa.user.presentation.dto.UserResponse
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.ResultActionsDsl
 
 @WebMvcTest(UserAuthController::class)
 @Import(SecurityConfig::class)
@@ -33,12 +38,10 @@ class UserAuthControllerTest(
 
     describe("회원가입 API") {
 
-        fun requestRegisterUser(request: RegisterUserRequest): ResultActionsDsl {
-            return mockMvc.post(
-                uri = "/v1/auth/register",
-                request = request
-            )
-        }
+        fun requestRegisterUser(request: RegisterUserRequest) = mockMvc.post(
+            uri = "/v1/auth/register",
+            request = request
+        )
 
         context("유효한 사용자 정보를 전달하는 경우") {
 
@@ -83,6 +86,66 @@ class UserAuthControllerTest(
                 context(testCase) {
 
                     val actualAction = requestRegisterUser(request)
+
+                    it("status 는 400 이어야 한다.") {
+                        actualAction.andExpect { status { isBadRequest() } }
+                    }
+
+                    it("errorCode 는 ERR-991 이어야 하고, message 는 $expectedMessage 를 포함하고 있어야 한다.") {
+                        val actualErrorResponse = actualAction.getErrorResponse()
+                        actualErrorResponse.errorCode shouldBe "ERR-991"
+                        actualErrorResponse.message shouldContain expectedMessage
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    describe("로그인 API") {
+
+        fun requestLogin(request: LoginRequest) = mockMvc.post(
+            uri = "/v1/auth/login",
+            request = request
+        )
+
+        context("유효한 자격 증명 정보를 전달하는 경우") {
+
+            val request = createLoginRequest()
+
+            every { userService.signIn(any()) } returns defaultAuthTokens()
+
+            val actualAction = requestLogin(request)
+
+            it("status 는 200 이어야 한다.") {
+                actualAction.andExpect { status { isOk() } }
+            }
+
+            it("토큰 정보가 반환되어야 한다.") {
+                val actualResponse = actualAction.getResponse(AuthTokensResponse::class)
+                actualResponse shouldBe AuthTokensResponse(
+                    accessToken = defaultAccessToken(),
+                    refreshToken = defaultRefreshToken(),
+                )
+            }
+
+        }
+
+        context("유효하지 않은 자격 증명 정보를 전달하는 경우") {
+
+            listOf(
+                row("이메일이 비어 있는 경우", createLoginRequest(email = null), "이메일은 공백이나 빈 문자열이 아닌 값이어야 합니다."),
+                row("이메일이 빈 문자열인 경우", createLoginRequest(email = " "), "이메일은 공백이나 빈 문자열이 아닌 값이어야 합니다."),
+                row("비밀번호가 비어 있는 경우", createLoginRequest(password = null), "비밀번호는 공백이나 빈 문자열이 아닌 값이어야 합니다."),
+                row("비밀번호가 빈 문자열인 경우", createLoginRequest(password = " "), "비밀번호는 공백이나 빈 문자열이 아닌 값이어야 합니다."),
+            ).forAll { (testCase: String, request: LoginRequest, expectedMessage: String) ->
+
+                context(testCase) {
+
+                    val actualAction = requestLogin(request)
 
                     it("status 는 400 이어야 한다.") {
                         actualAction.andExpect { status { isBadRequest() } }

@@ -9,6 +9,7 @@ import io.webapp.moa.user.domain.model.value.AccessToken
 import io.webapp.moa.user.domain.model.value.Email
 import io.webapp.moa.user.domain.model.value.EncryptedPassword
 import io.webapp.moa.user.domain.model.value.RefreshToken
+import io.webapp.moa.user.presentation.dto.LoginRequest
 import io.webapp.moa.user.presentation.dto.RegisterUserRequest
 
 object UserFixtures {
@@ -91,6 +92,14 @@ object UserFixtures {
         email = email,
         password = password,
         name = name,
+    )
+
+    fun createLoginRequest(
+        email: String? = DEFAULT_EMAIL_TEXT,
+        password: String? = DEFAULT_RAW_PASSWORD_TEXT,
+    ) = LoginRequest(
+        email = email,
+        password = password,
     )
 
 }
