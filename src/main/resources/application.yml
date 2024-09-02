@@ -1,3 +1,9 @@
 spring:
   application:
     name: moa
+
+auth:
+  jwt:
+    secret-key:
+    issuer: moa
+    ttl: 3600
