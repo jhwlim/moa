@@ -68,7 +68,7 @@ class UserServiceTest : DescribeSpec({
 
             every { signInValidator.validate(command) } returns Unit
             every { userRepository.findByEmailOrThrow(command.email) } returns user
-            every { accessTokenProvider.createAccessToken(user) } returns defaultAccessToken()
+            every { accessTokenProvider.createAccessToken(user, any()) } returns defaultAccessToken()
             every { refreshTokenProvider.createRefreshToken(user) } returns defaultRefreshToken()
 
             val actual = userService.signIn(command)

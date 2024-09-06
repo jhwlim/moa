@@ -13,6 +13,7 @@ import io.webapp.moa.user.domain.repository.findByEmailOrThrow
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class UserService(
@@ -38,8 +39,9 @@ class UserService(
 
         return userRepository.findByEmailOrThrow(command.email)
             .let { user ->
+                val now = LocalDateTime.now()
                 AuthTokens(
-                    accessToken = accessTokenProvider.createAccessToken(user),
+                    accessToken = accessTokenProvider.createAccessToken(user, now),
                     refreshToken = refreshTokenProvider.createRefreshToken(user),
                 )
             }

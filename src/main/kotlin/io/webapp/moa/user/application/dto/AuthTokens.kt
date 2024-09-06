@@ -1,7 +1,7 @@
 package io.webapp.moa.user.application.dto
 
-import io.webapp.moa.user.domain.model.value.AccessToken
-import io.webapp.moa.user.domain.model.value.RefreshToken
+import io.webapp.moa.user.application.auth.AccessToken
+import io.webapp.moa.user.application.auth.RefreshToken
 
 data class AuthTokens(
     val accessToken: AccessToken,

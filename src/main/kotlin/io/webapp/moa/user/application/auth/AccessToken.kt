@@ -1,4 +1,4 @@
-package io.webapp.moa.user.domain.model.value
+package io.webapp.moa.user.application.auth
 
 @JvmInline
 value class AccessToken(
