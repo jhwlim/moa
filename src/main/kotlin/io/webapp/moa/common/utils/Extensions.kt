@@ -10,4 +10,3 @@ fun LocalDateTime.toDate(): Date {
     val zonedDateTime = this.atZone(SEOUL_ZONE_ID)
     return Date.from(zonedDateTime.toInstant())
 }
-
