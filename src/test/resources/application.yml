@@ -11,3 +11,9 @@ spring:
   h2:
     console:
       enabled: true
+
+auth:
+  jwt:
+    secret-key: Pf5i1wxDznpNjQMWGm6ODE3oA8uHLftHdjpvjk2vqSI=
+    issuer: moa
+    ttl: 3600
