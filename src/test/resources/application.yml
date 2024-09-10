@@ -17,3 +17,9 @@ auth:
     secret-key: Pf5i1wxDznpNjQMWGm6ODE3oA8uHLftHdjpvjk2vqSI=
     issuer: moa
     ttl: 3600
+
+redis:
+  key:
+    refresh-token:
+      prefix: RT_V1
+      ttl: 86400 # 30일

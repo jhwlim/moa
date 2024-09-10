@@ -7,3 +7,9 @@ auth:
     secret-key:
     issuer: moa
     ttl: 3600
+
+redis:
+  key:
+    refresh-token:
+      prefix: RT_V1
+      ttl: 86400 # 30일
