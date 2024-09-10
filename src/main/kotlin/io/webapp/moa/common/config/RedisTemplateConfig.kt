@@ -3,7 +3,7 @@ package io.webapp.moa.common.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import io.webapp.moa.user.application.auth.RefreshToken
+import io.webapp.moa.user.domain.model.data.RefreshToken
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.RedisConnectionFactory

@@ -1,12 +1,12 @@
 package io.webapp.moa.support.fixture
 
 import io.webapp.moa.user.application.auth.AccessToken
-import io.webapp.moa.user.application.auth.RefreshToken
 import io.webapp.moa.user.application.dto.AuthTokens
 import io.webapp.moa.user.application.dto.CreateUserCommand
 import io.webapp.moa.user.application.dto.SignInCommand
 import io.webapp.moa.user.application.dto.UserDto
 import io.webapp.moa.user.domain.model.aggregate.User
+import io.webapp.moa.user.domain.model.data.RefreshToken
 import io.webapp.moa.user.domain.model.value.Email
 import io.webapp.moa.user.domain.model.value.EncryptedPassword
 import io.webapp.moa.user.domain.model.value.UserRole
