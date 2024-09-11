@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: moa-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: dev_user
+      MYSQL_PASSWORD: dev_password
+      MYSQL_DATABASE: moa_dev
+    ports:
+      - "3306:3306"
+    volumes:
+      - moa-mysql-data:/var/lib/mysql
+    networks:
+      - spring_network
+
+  redis:
+    image: redis:6.2
+    container_name: moa-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - spring_network
+
+volumes:
+  moa-mysql-data:
+
+networks:
+  spring_network:
+    driver: bridge
