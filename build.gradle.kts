@@ -36,6 +36,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:3.0.5")
     implementation("com.auth0:java-jwt:4.4.0")
     implementation("io.lettuce:lettuce-core:6.3.2.RELEASE")
+    implementation("mysql:mysql-connector-java:8.0.33")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
