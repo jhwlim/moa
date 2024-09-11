@@ -15,5 +15,6 @@ class User(
     val email: Email,
     val password: EncryptedPassword,
     val name: String,
+    @Enumerated(EnumType.STRING)
     val role: UserRole,
 ) : AbstractAggregateRoot<User>()
