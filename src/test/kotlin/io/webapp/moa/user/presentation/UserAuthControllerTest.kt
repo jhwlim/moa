@@ -14,7 +14,7 @@ import io.webapp.moa.support.fixture.UserFixtures.createRegisterUserRequest
 import io.webapp.moa.support.fixture.UserFixtures.defaultAccessToken
 import io.webapp.moa.support.fixture.UserFixtures.defaultAuthTokens
 import io.webapp.moa.support.fixture.UserFixtures.defaultEmail
-import io.webapp.moa.support.fixture.UserFixtures.defaultRefreshToken
+import io.webapp.moa.support.fixture.UserFixtures.defaultRefreshTokenResponse
 import io.webapp.moa.support.fixture.UserFixtures.defaultUserDto
 import io.webapp.moa.support.utils.getErrorResponse
 import io.webapp.moa.support.utils.getResponse
@@ -128,7 +128,7 @@ class UserAuthControllerTest(
                 val actualResponse = actualAction.getResponse(AuthTokensResponse::class)
                 actualResponse shouldBe AuthTokensResponse(
                     accessToken = defaultAccessToken(),
-                    refreshToken = defaultRefreshToken(),
+                    refreshToken = defaultRefreshTokenResponse(),
                 )
             }
 

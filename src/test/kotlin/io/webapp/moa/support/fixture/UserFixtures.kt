@@ -1,16 +1,14 @@
 package io.webapp.moa.support.fixture
 
 import io.webapp.moa.user.application.auth.AccessToken
-import io.webapp.moa.user.application.dto.AuthTokens
-import io.webapp.moa.user.application.dto.CreateUserCommand
-import io.webapp.moa.user.application.dto.SignInCommand
-import io.webapp.moa.user.application.dto.UserDto
+import io.webapp.moa.user.application.dto.*
 import io.webapp.moa.user.domain.model.aggregate.User
 import io.webapp.moa.user.domain.model.data.RefreshToken
 import io.webapp.moa.user.domain.model.value.Email
 import io.webapp.moa.user.domain.model.value.EncryptedPassword
 import io.webapp.moa.user.domain.model.value.UserRole
 import io.webapp.moa.user.presentation.dto.LoginRequest
+import io.webapp.moa.user.presentation.dto.RefreshTokenResponse
 import io.webapp.moa.user.presentation.dto.RegisterUserRequest
 
 object UserFixtures {
@@ -84,8 +82,10 @@ object UserFixtures {
 
     fun defaultAuthTokens() = AuthTokens(
         accessToken = defaultAccessToken(),
-        refreshToken = defaultRefreshToken(),
+        refreshToken = defaultRefreshTokenDto(),
     )
+
+    private fun defaultRefreshTokenDto() = RefreshTokenDto(DEFAULT_REFRESH_TOKEN_VALUE)
 
     fun createRegisterUserRequest(
         email: String? = DEFAULT_EMAIL_TEXT,
@@ -104,5 +104,7 @@ object UserFixtures {
         email = email,
         password = password,
     )
+
+    fun defaultRefreshTokenResponse() = RefreshTokenResponse(DEFAULT_REFRESH_TOKEN_VALUE)
 
 }

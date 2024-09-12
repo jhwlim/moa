@@ -2,10 +2,7 @@ package io.webapp.moa.user.application
 
 import io.webapp.moa.user.application.auth.AccessTokenProvider
 import io.webapp.moa.user.application.auth.RefreshTokenProvider
-import io.webapp.moa.user.application.dto.AuthTokens
-import io.webapp.moa.user.application.dto.CreateUserCommand
-import io.webapp.moa.user.application.dto.SignInCommand
-import io.webapp.moa.user.application.dto.UserDto
+import io.webapp.moa.user.application.dto.*
 import io.webapp.moa.user.application.validator.CreateUserValidator
 import io.webapp.moa.user.application.validator.SignInValidator
 import io.webapp.moa.user.domain.repository.UserRepository
@@ -40,9 +37,12 @@ class UserService(
         return userRepository.findByEmailOrThrow(command.email)
             .let { user ->
                 val now = LocalDateTime.now()
+                val accessToken = accessTokenProvider.createAccessToken(user, now)
+                val refreshToken = refreshTokenProvider.createRefreshToken(user)
+
                 AuthTokens(
-                    accessToken = accessTokenProvider.createAccessToken(user, now),
-                    refreshToken = refreshTokenProvider.createRefreshToken(user),
+                    accessToken = accessToken,
+                    refreshToken = RefreshTokenDto.from(refreshToken),
                 )
             }
     }
