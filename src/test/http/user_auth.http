@@ -1,0 +1,18 @@
+### 회원가입
+POST {{host}}/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "test1234@test.com",
+  "password": "Test1234!",
+  "name": "테스터"
+}
+
+### 로그인
+POST {{host}}/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "test1234@test.com",
+  "password": "Test1234!"
+}
