@@ -1,5 +1,6 @@
 package io.webapp.moa.common.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.webapp.moa.user.application.auth.AccessTokenProvider
 import io.webapp.moa.user.infrastructure.auth.AuthenticationFilter
 import org.springframework.context.annotation.Bean
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 class SecurityConfig(
     private val accessTokenProvider: AccessTokenProvider,
+    private val objectMapper: ObjectMapper,
 ) {
 
     @Bean
@@ -23,7 +25,7 @@ class SecurityConfig(
         http
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .addFilterAt(authenticationFilter(accessTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAt(authenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .authorizeHttpRequests {
                 it.requestMatchers(*PERMIT_ALL_PATTERNS)
                     .permitAll()
@@ -41,15 +43,16 @@ class SecurityConfig(
     }
 
     @Bean
-    fun authenticationFilter(accessTokenProvider: AccessTokenProvider): AuthenticationFilter {
+    fun authenticationFilter(): AuthenticationFilter {
         return AuthenticationFilter(
             accessTokenProvider = accessTokenProvider,
+            objectMapper = objectMapper,
         )
     }
 
     companion object {
 
-        private val PERMIT_ALL_PATTERNS = arrayOf(
+        val PERMIT_ALL_PATTERNS = arrayOf(
             "/v1/auth/register",
             "/v1/auth/login",
         )

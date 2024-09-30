@@ -1,8 +1,5 @@
 package io.webapp.moa.support.utils
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinFeature
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.webapp.moa.common.exception.ErrorResponse
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -12,19 +9,9 @@ import org.springframework.test.web.servlet.post
 import java.nio.charset.StandardCharsets.UTF_8
 import kotlin.reflect.KClass
 
-private val objectMapper = ObjectMapper().apply {
-    registerModule(
-        KotlinModule.Builder()
-            .configure(KotlinFeature.NullToEmptyCollection, false)
-            .configure(KotlinFeature.NullToEmptyMap, false)
-            .configure(KotlinFeature.NullIsSameAsDefault, false)
-            .configure(KotlinFeature.SingletonSupport, false)
-            .configure(KotlinFeature.StrictNullChecks, false)
-            .build()
-    )
-}
+private val objectMapper = objectMapperWithBasicModule()
 
-fun MockMvc.post(uri: String, request: Any): ResultActionsDsl {
+fun MockMvc.post(uri: String, request: Any?): ResultActionsDsl {
     return this.post(uri) {
         contentType = MediaType.APPLICATION_JSON
         content = objectMapper.writeValueAsString(request)
