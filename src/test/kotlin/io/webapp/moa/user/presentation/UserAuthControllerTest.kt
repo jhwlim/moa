@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.every
 import io.webapp.moa.SpringTestSpec
-import io.webapp.moa.common.config.SecurityConfig
+import io.webapp.moa.TestSecurityConfig
 import io.webapp.moa.support.fixture.UserFixtures.DEFAULT_USER_NAME
 import io.webapp.moa.support.fixture.UserFixtures.createLoginRequest
 import io.webapp.moa.support.fixture.UserFixtures.createRegisterUserRequest
@@ -29,7 +29,9 @@ import org.springframework.context.annotation.Import
 import org.springframework.test.web.servlet.MockMvc
 
 @WebMvcTest(UserAuthController::class)
-@Import(SecurityConfig::class)
+@Import(
+    TestSecurityConfig::class,
+)
 class UserAuthControllerTest(
     private val mockMvc: MockMvc,
     @MockkBean

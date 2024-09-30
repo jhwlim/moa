@@ -1,5 +1,7 @@
 package io.webapp.moa.common.config
 
+import io.webapp.moa.user.application.auth.AccessTokenProvider
+import io.webapp.moa.user.infrastructure.auth.AuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -8,16 +10,20 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    private val accessTokenProvider: AccessTokenProvider,
+) {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .addFilterAt(authenticationFilter(accessTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
             .authorizeHttpRequests {
                 it.requestMatchers(*PERMIT_ALL_PATTERNS)
                     .permitAll()
@@ -32,6 +38,13 @@ class SecurityConfig {
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    @Bean
+    fun authenticationFilter(accessTokenProvider: AccessTokenProvider): AuthenticationFilter {
+        return AuthenticationFilter(
+            accessTokenProvider = accessTokenProvider,
+        )
     }
 
     companion object {
