@@ -7,6 +7,7 @@ import io.webapp.moa.common.utils.toDate
 import io.webapp.moa.user.application.auth.AccessToken
 import io.webapp.moa.user.application.auth.AccessTokenProvider
 import io.webapp.moa.user.domain.model.aggregate.User
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
@@ -34,6 +35,10 @@ class JwtAccessTokenProvider(
             .withExpiresAt(expiresAt.toDate())
             .sign(algorithm)
             .let { AccessToken(it) }
+    }
+
+    override fun getAuthentication(accessToken: AccessToken): Authentication {
+        TODO("Not yet implemented")
     }
 
 }
